@@ -1,35 +1,44 @@
 Collaborative App with Django Backend
 Overview
-This project is a collaborative application built with Django, featuring group management, email verification through OTP, and a modern UI. It is designed to be hosted on GitHub and offers a robust backend with Django.
+This project is a collaborative application built with Django, featuring group management, email verification via OTP, and a modern, responsive UI. It is designed to be hosted on GitHub and leverages a robust Django backend. Additionally, user data (personal) is securely fetched through an API hosted on PythonAnywhere.
 
 Features
 Group Management: Create and manage groups for collaborative work.
-Email Verification: Verify user emails using One-Time Passwords (OTP).
-Awesome UI: A modern and responsive user interface.
-Django Backend: A powerful and flexible backend built with Django.
+
+Email Verification: Users must verify their email using a One-Time Password (OTP).
+
+Awesome UI: A clean, responsive, and modern user interface.
+
+Django Backend: Built with Django for a powerful and scalable backend.
+
+External API Integration: User personal data is retrieved from an external API hosted on PythonAnywhere.
+
 Installation
 Prerequisites
 Python 3.x
+
 Django
-Additional packages: django-otp, pyotp
+
+Additional packages:
+
+django-otp
+
+pyotp
 Usage
 Email Verification
-The application uses OTP for email verification. When a user registers, an OTP is sent to their email address. The user must enter this OTP to verify their email.
+When a user registers, an OTP is sent to their email. The user must input this OTP to verify their email address and activate their account.
 
 Group Management
-Users can create and manage groups. Each group can have multiple members, and group-specific features can be implemented as needed.
+Users can create and manage groups. Each group can contain multiple members. Future updates can include group-specific permissions, tasks, chat features, and more.
 
-Contributing
-Contributions are welcome! Please follow these steps:
-
-Fork the repository.
-Create a new branch (git checkout -b feature-branch).
-Commit your changes (git commit -am 'Add some feature').
-Push to the branch (git push origin feature-branch).
-Create a new Pull Request.
+Fetching User Data via API
+User personal data (e.g., name, email, phone number, etc.) is fetched through a secure API hosted on PythonAnywhere. This external API allows real-time access to up-to-date personal user details upon registration or profile view.
 License
 This project is licensed under the MIT License.
 
 Acknowledgments
-Django OTP for OTP verification.
-Implementing Email and Mobile OTP Verification in Django for a comprehensive guide on OTP verification.
+Django OTP for OTP-based verification.
+
+Tutorials on implementing OTP verification in Django.
+
+PythonAnywhere for API hosting.
