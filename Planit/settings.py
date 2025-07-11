@@ -43,6 +43,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'Planit.urls'
+STATIC_URL = '/static/'
 
 TEMPLATES = [
     {
@@ -141,3 +142,6 @@ CSRF_TRUSTED_ORIGINS = ['http://localhost:8000']
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+import os
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
