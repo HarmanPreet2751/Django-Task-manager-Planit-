@@ -17,7 +17,7 @@ SECRET_KEY = 'django-insecure-+(%+7xo301f_#h##bpdnj=e07r36mzpwh_y%6k#)any81em4ht
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['planit-meyj.onrender.com']
 
 # Application definition
 INSTALLED_APPS = [
