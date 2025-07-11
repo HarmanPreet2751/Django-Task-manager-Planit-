@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlanIt - Your Task Management Solution</title>
+    <!-- Bootstrap 5 (CDN) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+    <!-- Material Design Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    
+    <style>
+        :root {
+            --primary-color: #03033a;
+            --accent-color: #00aaff;
+            --background-color: #f5f5f5;
+            --text-color: #ffffff;
+        }
+    
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+    
+        body {
+            min-height: 200vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background-color: var(--background-color);
+            color: var(--primary-color);
+            display: flex;
+            flex-direction: column;
+        }
+    
+        nav {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            padding: 1rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            position: fixed;
+            width: 100%;
+            z-index: 100000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+    
+        #navwaladiv2 > a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-size: 30px;
+            display: flex;
+            align-items: center;
+        }
+    
+        #navwaladiv {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+    
+        nav #navwaladiv > div {
+            position: relative;
+            overflow: hidden;
+        }
+    
+        nav #navwaladiv > div > a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+    
+        nav #navwaladiv > div > a::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: -3px;
+            left: 0;
+            background-color: khaki;
+            transform: scaleX(0);
+            transition: transform 0.3s ease-in-out;
+        }
+    
+        nav #navwaladiv > div > a:hover {
+            color: khaki;
+            text-shadow: 0 0 1px khaki;
+        }
+    
+        nav #navwaladiv > div > a:hover::after {
+            transform: scaleX(1);
+        }
+    
+        button#signup {
+            background-color: var(--accent-color);
+            color: black;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0.9;
+        }
+    
+        button#signup > a {
+            text-decoration: none;
+            color: white;
+        }
+    
+        button#signup:hover {
+            background-color: khaki;
+            transform: translateY(-2px);
+        }
+    
+        button#signup:hover a {
+            color: #ffffff;
+        }
+    
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+    
+        .hamburger .line {
+            width: 25px;
+            height: 3px;
+            background-color: var(--text-color);
+            margin: 4px 0;
+            transition: all 0.3s ease;
+        }
+    
+        #img1 {
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+    
+        main {
+            padding: 80px 20px 40px;
+            flex: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+    
+        .content-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+    
+        .content-section:hover {
+            transform: translateY(-5px);
+        }
+    
+        h1 {
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+    
+        footer {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            padding: 3rem 1rem;
+            margin-top: auto;
+        }
+    
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+            gap: 20px;
+        }
+    
+        .footer-section {
+            padding: 1rem;
+            flex: 1 1 250px;
+            color: var(--text-color);
+        }
+    
+        .footer-section h3 {
+            color: var(--text-color);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+    
+        .footer-section p,
+        .footer-section ul li,
+        .footer-section ul li a {
+            color: var(--text-color);
+            margin-bottom: 0.6rem;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+    
+        .footer-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+    
+        .footer-section ul li a i {
+            font-size: 24px;
+            margin: 0 10px;
+        }
+    
+        .footer-section ul li a:hover {
+            color: #00eaff;
+        }
+    
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-color);
+        }
+    
+        .welcome-message {
+            color: var(--accent-color);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 1.2rem;
+        }
+    
+        /* Flash Message Styles */
+        .container .alert {
+            font-size: 16px;
+            font-weight: 500;
+            border-radius: 8px;
+            padding: 12px 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background-color: white;
+            color: var(--primary-color);
+            animation: fadeIn 0.5s ease-in-out;
+        }
+    
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border-left: 5px solid #28a745;
+        }
+    
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-left: 5px solid #dc3545;
+        }
+    
+        .alert-warning {
+            background-color: #fff3cd;
+            color: #856404;
+            border-left: 5px solid #ffc107;
+        }
+    
+        .alert-info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border-left: 5px solid #17a2b8;
+        }
+    
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    
+        .btn-close {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            position: absolute;
+            right: 15px;
+            top: 10px;
+            cursor: pointer;
+        }
+    
+        @media screen and (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+    
+            #navwaladiv {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                background-color: var(--primary-color);
+                position: absolute;
+                top: 60px;
+                left: 0;
+                padding: 1rem;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            }
+    
+            #navwaladiv.active {
+                display: flex;
+            }
+    
+            nav #navwaladiv > div {
+                margin: 0.5rem 0;
+            }
+    
+            .footer-content {
+                flex-direction: column;
+                align-items: center;
+            }
+    
+            .footer-section {
+                margin-bottom: 1rem;
+                text-align: center;
+            }
+        }
+    </style>
+
+
+
+    {% block style %}
+
+    {% endblock %}
+</head>
+
+<body>
+    <nav>
+        <div id="navwaladiv2">
+            <a href="{% url 'home' %}">
+                <img id="img1" src="../static/images/navimage.jpeg" alt="">
+                PlanIt
+            </a>
+        </div>
+        <div class="hamburger" onclick="toggleNav()">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
+        <div id="navwaladiv">
+
+            {% if user.is_authenticated %}
+            <div class="welcome-message"
+                style="background-color: #2d3d8d; border-radius: 10px; padding: 15px;color: white; box-shadow: 5px 5px 0.5px rgba(48, 84, 192, 0.192);">
+                {{user.username}}</div>
+            <div><a href="{% url 'home' %}">Home</a></div>
+            <div><a href="#footer">About</a></div>
+            <div><a href="{% url 'dashboard' %}">Dashboard</a></div>
+            <div><a href="{% url 'group_list' %}">Team Task</a></div>
+            <div><a href="{% url 'pricing' %}">Pricing</a></div>
+            <div><a href="{% url 'logout' %}">Logout</a></div>
+
+            {% else %}
+            <div><a href="{% url 'home' %}">Home</a></div>
+            <div><a href="#footer">About</a></div>
+            <div><button id="signup" style="background-color:  blueviolet;"><a
+                        href="{% url 'login' %}">Register/Login</a></button></div>
+            {% endif %}
+        </div>
+
+    </nav>
+    <main class="mdl-layout__content">
+        {% block content %}
+        {% endblock %}
+    </main>
+    <div id="footer"></div>
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3 style="color: white; font-size: 40px;">PlanIt</h3>
+                <p style="font-size: 18px; line-height: 5px;">"Join thousands of users
+                <pre style="font-size: 18px;">streamlining their tasks </pre>
+                <pre style="font-size: 18px;">with ease!</pre>
+                </p>
+            </div>
+            <div class="footer-section" style="margin-left: -40px;">
+                <h3 style="color: #00eaff;position: relative; left: 50px;">Features</h3>
+                <ul>
+                    <li>Task Creation and Organization</li>
+                    <li>Priority Management</li>
+                    <li>Due Date Tracking</li>
+                    <li>Progress Monitoring</li>
+                    <li>Team Collaboration</li>
+                </ul>
+            </div>
+            <div class="footer-section" style="margin-left: -60px;">
+                <h3 style="color: #00eaff;">Quick Links</h3>
+                <ul>
+                    <li><a href="#">Getting Started</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Contact Support</a></li>
+                </ul>
+            </div>
+            <div class="footer-section" style="margin-left: -50px;">
+                <h3 style="color: #00eaff;">Contact Us</h3>
+                <p>Email: support@PlanIt.com</p>
+                <p>Phone: (555) 123-4567</p>
+                <p>Address: 123 Productivity Lane,
+                <pre></pre>Organization City, TS 12345</p>
+            </div>
+
+            <div class="footer-section" style="margin-right: 20px; text-align: center; gap: 5px;">
+                <h3 style="color: #00eaff;">Follow Us</h3>
+                <i class="fab fa-github" style="color: white;font-size: 40px;  "></i>
+                <i class="fab fa-twitter" style="color: white;font-size: 40px;margin: auto;"></i>
+                <i class="fab fa-linkedin" style="color: white;font-size: 40px;margin: auto;"></i>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 PlanIt. All Rights Reserved</p>
+        </div>
+    </footer>
+    <script>
+        function toggleNav() {
+            var nav = document.getElementById('navwaladiv');
+            nav.classList.toggle('active');
+        }
+    </script>
+    {% block js %}
+        
+    {% endblock %}
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js" ></script>
+
+</body>
+
+</html>

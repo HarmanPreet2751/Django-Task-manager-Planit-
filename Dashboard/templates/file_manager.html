@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Manager - Space Theme</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6c5ce7;
+            --secondary-color: #0f0c29;
+            --background-color: #0c1527;
+            --card-background: #161b22;
+            --accent-color: #03033a;
+            --text-color: #ffffff;
+            --text-muted: #a0aec0;
+            --border-color: #2d3748;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image:
+                radial-gradient(circle at 10% 20%, rgba(108, 92, 231, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 80% 60%, rgba(108, 92, 231, 0.05) 0%, transparent 20%);
+            font-size: clamp(14px, 2.5vw, 16px);
+            line-height: 1.5;
+        }
+
+        .card {
+            background-color: var(--card-background);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            margin-bottom: clamp(1rem, 3vw, 1.5rem);
+        }
+
+        .card:hover {
+            box-shadow: 0 12px 30px rgba(108, 92, 231, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            padding: clamp(0.8rem, 2.5vw, 1rem);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .card-header.primary-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+        }
+
+        .card-header.secondary-header {
+            background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+            color: white;
+        }
+
+        .card-header h3 {
+            margin: 0;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            font-size: clamp(1.2rem, 3.5vw, 1.5rem);
+        }
+
+        .card-header h3 i {
+            margin-right: clamp(0.4rem, 1vw, 0.5rem);
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+        }
+
+        .card-body {
+            padding: clamp(1rem, 3vw, 1.2rem);
+        }
+
+        .form-control,
+        .form-select {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-color);
+            padding: clamp(0.6rem, 2vw, 0.8rem) clamp(0.8rem, 2vw, 1rem);
+            transition: all 0.3s ease;
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            min-height: 48px;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(108, 92, 231, 0.25);
+            color: var(--text-color);
+        }
+
+        .form-label {
+            color: var(--text-color);
+            font-weight: 500;
+            margin-bottom: clamp(0.4rem, 1vw, 0.5rem);
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            border-radius: 8px;
+            padding: clamp(0.5rem, 2vw, 0.6rem) clamp(1rem, 3vw, 1.2rem);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(108, 92, 231, 0.3);
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            min-height: 48px;
+        }
+
+        .btn-primary:hover {
+            background-color: #5a4ad1;
+            border-color: #5a4ad1;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(108, 92, 231, 0.4);
+        }
+
+        .btn-danger {
+            background-color: #e74c3c;
+            border-color: #e74c3c;
+            border-radius: 8px;
+            padding: clamp(0.4rem, 1.5vw, 0.5rem) clamp(0.8rem, 2vw, 1rem);
+            transition: all 0.3s ease;
+            font-size: clamp(0.8rem, 2.2vw, 0.9rem);
+            min-height: 44px;
+        }
+
+        .btn-danger:hover {
+            background-color: #c0392b;
+            border-color: #c0392b;
+        }
+
+        .btn-outline-primary {
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+            border-radius: 8px;
+            padding: clamp(0.4rem, 1.5vw, 0.5rem) clamp(0.8rem, 2vw, 1rem);
+            transition: all 0.3s ease;
+            font-size: clamp(0.8rem, 2.2vw, 0.9rem);
+            min-height: 44px;
+        }
+
+        .btn-outline-primary:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .list-group-item {
+            background-color: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            margin-bottom: clamp(0.6rem, 1.5vw, 0.8rem);
+            border-radius: 8px;
+            padding: clamp(0.8rem, 2.5vw, 1rem);
+            transition: all 0.3s ease;
+        }
+
+        .list-group-item:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            transform: translateX(5px);
+        }
+
+        .list-group-item h5 {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: clamp(0.4rem, 1vw, 0.6rem);
+            font-size: clamp(1rem, 3vw, 1.2rem);
+        }
+
+        .list-group-item p {
+            color: var(--text-muted);
+            font-size: clamp(0.8rem, 2.2vw, 0.9rem);
+        }
+
+        .page-title {
+            font-weight: 700;
+            margin-bottom: clamp(1rem, 3vw, 1.5rem);
+            color: var(--text-color);
+            text-align: center;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: clamp(0.6rem, 1.5vw, 0.8rem);
+            display: inline-block;
+            font-size: clamp(1.4rem, 4vw, 1.8rem);
+        }
+
+        .file-preview-container {
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            margin-bottom: clamp(0.6rem, 1.5vw, 0.8rem);
+        }
+
+        .pdf-preview-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: clamp(0.6rem, 1.5vw, 0.8rem);
+            align-items: center;
+        }
+
+        .pdf-preview-container .thumbnail {
+            width: clamp(100px, 20vw, 150px);
+            height: auto;
+            border-radius: 5px;
+            border: 1px solid var(--border-color);
+            object-fit: cover;
+        }
+
+        .pdf-preview-container .pdf-viewer {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .upload-icon {
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            color: var(--primary-color);
+            margin-bottom: clamp(0.6rem, 1.5vw, 0.8rem);
+        }
+
+        .file-input-wrapper {
+            position: relative;
+        }
+
+        .file-input-wrapper .file-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            border: 2px dashed var(--border-color);
+            cursor: pointer;
+            z-index: 1;
+            transition: all 0.3s ease;
+        }
+
+        .file-input-wrapper input[type="file"] {
+            opacity: 0;
+            position: relative;
+            z-index: 2;
+            cursor: pointer;
+            height: clamp(100px, 20vh, 120px);
+        }
+
+        .file-input-wrapper .file-placeholder:hover {
+            border-color: var(--primary-color);
+            background-color: rgba(108, 92, 231, 0.05);
+        }
+
+        .text-muted {
+            color: var(--text-muted) !important;
+        }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        a:hover {
+            color: #5a4ad1;
+            text-decoration: underline;
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--background-color);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #5a4ad1;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .file-actions {
+            margin-top: clamp(0.6rem, 1.5vw, 0.8rem);
+            display: flex;
+            gap: clamp(0.4rem, 1vw, 0.5rem);
+        }
+
+        .file-meta {
+            display: flex;
+            align-items: center;
+            margin-bottom: clamp(0.6rem, 1.5vw, 0.8rem);
+        }
+
+        .file-meta i {
+            margin-right: clamp(0.4rem, 1vw, 0.5rem);
+            color: var(--primary-color);
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+        }
+
+        .card:focus,
+        .btn-primary:focus,
+        .btn-danger:focus,
+        .btn-outline-primary:focus,
+        .form-control:focus,
+        .form-select:focus,
+        .list-group-item:focus,
+        a:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        @media (max-width: 1024px) {
+            .card {
+                margin-bottom: clamp(0.8rem, 2.5vw, 1rem);
+            }
+
+            .card-header {
+                padding: clamp(0.6rem, 2vw, 0.8rem);
+            }
+
+            .card-body {
+                padding: clamp(0.8rem, 2.5vw, 1rem);
+            }
+
+            .page-title {
+                font-size: clamp(1.2rem, 3.5vw, 1.5rem);
+            }
+
+            .pdf-preview-container .thumbnail {
+                width: clamp(80px, 15vw, 120px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .card {
+                margin-bottom: clamp(0.6rem, 2vw, 0.8rem);
+            }
+
+            .card-header h3 {
+                font-size: clamp(1rem, 3vw, 1.2rem);
+            }
+
+            .card-body {
+                padding: clamp(0.6rem, 2vw, 0.8rem);
+            }
+
+            .form-control,
+            .form-select {
+                padding: clamp(0.5rem, 1.5vw, 0.6rem) clamp(0.6rem, 1.5vw, 0.8rem);
+                font-size: clamp(0.8rem, 2.2vw, 0.9rem);
+            }
+
+            .form-label {
+                font-size: clamp(0.8rem, 2.2vw, 0.9rem);
+            }
+
+            .btn-primary {
+                padding: clamp(0.4rem, 1.5vw, 0.5rem) clamp(0.8rem, 2vw, 1rem);
+                font-size: clamp(0.8rem, 2.2vw, 0.9rem);
+            }
+
+            .btn-danger,
+            .btn-outline-primary {
+                padding: clamp(0.3rem, 1vw, 0.4rem) clamp(0.6rem, 1.5vw, 0.8rem);
+                font-size: clamp(0.7rem, 2vw, 0.8rem);
+            }
+
+            .list-group-item {
+                padding: clamp(0.6rem, 2vw, 0.8rem);
+            }
+
+            .list-group-item h5 {
+                font-size: clamp(0.9rem, 2.5vw, 1rem);
+            }
+
+            .list-group-item p {
+                font-size: clamp(0.7rem, 2vw, 0.8rem);
+            }
+
+            .page-title {
+                font-size: clamp(1rem, 3vw, 1.2rem);
+                padding-bottom: clamp(0.4rem, 1vw, 0.6rem);
+            }
+
+            .file-input-wrapper input[type="file"] {
+                height: clamp(80px, 15vh, 100px);
+            }
+
+            .file-actions {
+                flex-wrap: wrap;
+            }
+
+            .pdf-preview-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .pdf-preview-container .thumbnail {
+                width: clamp(60px, 12vw, 100px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                margin-bottom: clamp(0.4rem, 1.5vw, 0.6rem);
+            }
+
+            .card-header {
+                padding: clamp(0.5rem, 1.5vw, 0.6rem);
+            }
+
+            .card-body {
+                padding: clamp(0.5rem, 1.5vw, 0.6rem);
+            }
+
+            .card-header h3 {
+                font-size: clamp(0.9rem, 2.5vw, 1rem);
+            }
+
+            .form-control,
+            .form-select {
+                padding: clamp(0.4rem, 1.2vw, 0.5rem) clamp(0.5rem, 1.2vw, 0.6rem);
+                font-size: clamp(0.7rem, 2vw, 0.8rem);
+            }
+
+            .form-label {
+                font-size: clamp(0.7rem, 2vw, 0.8rem);
+            }
+
+            .btn-primary {
+                padding: clamp(0.3rem, 1vw, 0.4rem) clamp(0.6rem, 1.5vw, 0.8rem);
+                font-size: clamp(0.7rem, 2vw, 0.8rem);
+            }
+
+            .btn-danger,
+            .btn-outline-primary {
+                padding: clamp(0.2rem, 0.8vw, 0.3rem) clamp(0.5rem, 1.2vw, 0.6rem);
+                font-size: clamp(0.6rem, 1.8vw, 0.7rem);
+            }
+
+            .list-group-item {
+                padding: clamp(0.5rem, 1.5vw, 0.6rem);
+            }
+
+            .list-group-item h5 {
+                font-size: clamp(0.8rem, 2.2vw, 0.9rem);
+            }
+
+            .list-group-item p {
+                font-size: clamp(0.6rem, 1.8vw, 0.7rem);
+            }
+
+            .page-title {
+                font-size: clamp(0.9rem, 2.5vw, 1rem);
+            }
+
+            .upload-icon {
+                font-size: clamp(1.2rem, 3vw, 1.5rem);
+            }
+
+            .file-meta i {
+                font-size: clamp(0.8rem, 2vw, 1rem);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h1 class="page-title text-center mb-5">
+            <i class="fas fa-rocket me-2"></i>Space File Manager
+        </h1>
+
+        <div class="row">
+            <!-- Upload Form Section -->
+            <div class="col-md-6 fade-in" style="animation-delay: 0.2s;">
+                <div class="card">
+                    <div class="card-header primary-header">
+                        <h3><i class="fas fa-cloud-upload-alt"></i> Upload New File</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="text-center mb-4">
+                            <div class="upload-icon">
+                                <i class="fas fa-file-upload"></i>
+                            </div>
+                            <p class="text-muted">Select a file to upload to your space library</p>
+                        </div>
+
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="form-group mb-4">
+                                <label for="title" class="form-label">Title:</label>
+                                <input type="text" class="form-control" id="title" name="title"
+                                    placeholder="Enter a name for your file" required>
+                            </div>
+
+                            <div class="form-group mb-4">
+                                <label for="file" class="form-label">File:</label>
+                                <div class="file-input-wrapper">
+                                    <div class="file-placeholder">
+                                        <span style="color: wheat;">Click or drag file here</span>
+                                    </div>
+                                    <input type="file" class="form-control" id="file" name="file" required>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fas fa-rocket me-2"></i>Launch File
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Preview Section -->
+            <div class="col-md-6 fade-in" style="animation-delay: 0.4s;">
+                <div class="card">
+                    <div class="card-header secondary-header">
+                        <h3><i class="fas fa-satellite"></i> Your Files</h3>
+                    </div>
+                    <div class="card-body">
+                        {% if user_files %}
+                        <div class="list-group">
+                            {% for file in user_files %}
+                            <div class="list-group-item">
+                                <h5><i class="fas fa-file-alt me-2"></i>{{ file.title }}</h5>
+
+                                <div class="file-meta">
+                                    <i class="far fa-calendar-alt"></i>
+                                    <span style="color: #6b5ed4;">Uploaded on: {{ file.uploaded_at|date:"F d, Y" }}</span>
+                                </div>
+
+                                {% if ".pdf" in file.file.url|lower %}
+                                <div class="pdf-preview-container mb-3">
+                                    <!-- PDF Thumbnail (Placeholder for now, replace with actual thumbnail if server-side generation is available) -->
+                                    <img src="https://via.placeholder.com/150?text=PDF+Thumbnail" class="thumbnail" alt="{{ file.title }} Thumbnail">
+                                    <!-- Embedded PDF Viewer -->
+                                    <div class="pdf-viewer">
+                                        <div class="file-preview-container">
+                                            <object data="{% url 'serve_file' file.id %}" type="application/pdf" width="100%"
+                                                height="300px">
+                                                <p>It appears your browser doesn't support embedded PDFs.
+                                                    <a href="{% url 'serve_file' file.id %}" target="_blank">Click here to
+                                                        download the PDF</a>.
+                                                </p>
+                                            </object>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="file-actions">
+                                    <a href="{% url 'serve_file' file.id %}" class="btn btn-outline-primary"
+                                        target="_blank">
+                                        <i class="fas fa-external-link-alt me-2"></i>Open PDF
+                                    </a>
+                                    <a href="{% url 'delete_file' file.id %}" class="btn btn-danger"
+                                        onclick="return confirm('Are you sure you want to delete this file?')">
+                                        <i class="fas fa-trash-alt me-2"></i>Delete
+                                    </a>
+                                </div>
+                                {% elif ".jpg" in file.file.url|lower or ".jpeg" in file.file.url|lower or ".png" in file.file.url|lower or ".gif" in file.file.url|lower %}
+                                <div class="file-preview-container mb-3">
+                                    <img src="{{ file.file.url }}" class="img-fluid" alt="{{ file.title }}">
+                                </div>
+                                <div class="file-actions">
+                                    <a href="{{ file.file.url }}" class="btn btn-outline-primary" target="_blank">
+                                        <i class="fas fa-image me-2"></i>View Image
+                                    </a>
+                                    <a href="{% url 'delete_file' file.id %}" class="btn btn-danger"
+                                        onclick="return confirm('Are you sure you want to delete this file?')">
+                                        <i class="fas fa-trash-alt me-2"></i>Delete
+                                    </a>
+                                </div>
+                                {% else %}
+                                <div class="file-actions">
+                                    <a href="{{ file.file.url }}" class="btn btn-outline-primary" target="_blank">
+                                        <i class="fas fa-file me-2"></i>View File
+                                    </a>
+                                    <a href="{% url 'delete_file' file.id %}" class="btn btn-danger"
+                                        onclick="return confirm('Are you sure you want to delete this file?')">
+                                        <i class="fas fa-trash-alt me-2"></i>Delete
+                                    </a>
+                                </div>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        <div class="text-center py-5">
+                            <i class="fas fa-satellite-dish" style="font-size: 3rem; color: var(--text-muted);"></i>
+                            <p class="text-muted mt-3">Your space is empty. Upload files to see them here.</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Update file input placeholder text when a file is selected
+        document.getElementById('file').addEventListener('change', function (e) {
+            const placeholder = document.querySelector('.file-placeholder span');
+            if (this.files.length > 0) {
+                placeholder.textContent = this.files[0].name;
+            } else {
+                placeholder.textContent = 'Click or drag file here';
+            }
+        });
+    </script>
+</body>
+
+</html>

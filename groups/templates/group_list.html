@@ -1,0 +1,592 @@
+{% extends 'base1.html' %}
+{% block style %}
+<style>
+    :root {
+        --primary-color: #6c5ce7;
+        --secondary-color: #0f0c29;
+        --background-color: #0c1527;
+        --card-background: #161b22;
+        --accent-color: #03033a;
+        --text-primary: #ffffff;
+        --text-secondary: #a3b1c6;
+        --border-color: rgba(255, 255, 255, 0.08);
+        --success-color: #10b981;
+        --warning-color: #f59e0b;
+    }
+
+    body {
+        background-color: var(--background-color);
+        color: var(--text-primary);
+        font-family: 'Roboto', 'Segoe UI', 'Helvetica Neue', sans-serif;
+        margin: 0;
+        padding: 0;
+        line-height: 1.5;
+        background-image:
+            linear-gradient(to bottom, rgba(12, 21, 39, 0.9), rgba(3, 3, 58, 0.9)),
+            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 800 800'%3E%3Cg fill='none' stroke='%23151A30' stroke-width='1'%3E%3Cpath d='M769 229L1037 260.9M927 880L731 737 520 660 309 538 40 599 295 764 126.5 879.5 40 599-197 493 102 382-31 229 126.5 79.5-69-63'/%3E%3Cpath d='M-31 229L237 260 390 382 603 493 308.5 537.5 101.5 381.5M370 905L295 764'/%3E%3Cpath d='M520 660L578 842 731 737 840 599 603 493 520 660 295 764 309 538 390 382 539 269 769 229 577.5 41.5 370 105 295 -36 126.5 79.5 237 261 102 382 40 599 -69 737 127 880'/%3E%3Cpath d='M520-140L578.5 42.5 731-63M603 493L539 269 237 261 370 105M902 382L539 269M390 382L102 382'/%3E%3Cpath d='M-222 42L126.5 79.5 370 105 539 269 577.5 41.5 927 80 769 229 902 382 603 493 731 737M295-36L577.5 41.5M578 842L295 764M40-201L127 80M102 382L-261 269'/%3E%3C/g%3E%3Cg fill='%23232F4A'%3E%3Ccircle cx='769' cy='229' r='5'/%3E%3Ccircle cx='539' cy='269' r='5'/%3E%3Ccircle cx='603' cy='493' r='5'/%3E%3Ccircle cx='731' cy='737' r='5'/%3E%3Ccircle cx='520' cy='660' r='5'/%3E%3Ccircle cx='309' cy='538' r='5'/%3E%3Ccircle cx='295' cy='764' r='5'/%3E%3Ccircle cx='40' cy='599' r='5'/%3E%3Ccircle cx='102' cy='382' r='5'/%3E%3Ccircle cx='127' cy='80' r='5'/%3E%3Ccircle cx='370' cy='105' r='5'/%3E%3Ccircle cx='578' cy='42' r='5'/%3E%3Ccircle cx='237' cy='261' r='5'/%3E%3Ccircle cx='390' cy='382' r='5'/%3E%3C/g%3E%3C/svg%3E");
+        background-attachment: fixed;
+    }
+
+    .dashboard {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 40px 24px;
+    }
+
+    .dashboard-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 40px;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 24px;
+    }
+
+    .dashboard-title {
+        font-size: 2.25rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin: 0;
+        letter-spacing: 0.5px;
+    }
+
+    .header-actions {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+    }
+
+    .button-primary {
+        background: linear-gradient(to right, var(--primary-color), #5147cc);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        font-weight: 500;
+        font-size: 14px;
+        letter-spacing: 0.5px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        box-shadow: 0 4px 10px rgba(108, 92, 231, 0.2);
+    }
+
+    .button-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(108, 92, 231, 0.3);
+    }
+
+    .button-primary i {
+        margin-right: 8px;
+        font-size: 18px;
+    }
+
+    .dashboard-content {
+        margin-bottom: 40px;
+    }
+
+    .dashboard-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 24px;
+        margin-bottom: 40px;
+    }
+
+    .stat-card {
+        border: 2px solid whitesmoke;
+        background: rgba(22, 27, 34, 0.8);
+        border-radius: 8px;
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .stat-title {
+        color: var(--text-secondary);
+        font-size: 0.875rem;
+        font-weight: 500;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .stat-value {
+        color: var(--text-primary);
+        font-size: 1.75rem;
+        font-weight: 600;
+        margin-bottom: 16px;
+    }
+
+    .stat-change {
+        display: flex;
+        align-items: center;
+        font-size: 0.875rem;
+        color: var(--success-color);
+    }
+
+    .stat-change i {
+        font-size: 16px;
+        margin-right: 4px;
+    }
+
+    .groups-section {
+        margin-bottom: 40px;
+    }
+
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin: 0;
+    }
+
+    .view-all {
+        color: var(--primary-color);
+        text-decoration: none;
+        font-size: 0.875rem;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+    }
+
+    .view-all i {
+        margin-left: 4px;
+        font-size: 16px;
+    }
+
+    .groups-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 24px;
+    }
+
+    .group-card {
+        background: linear-gradient(180deg, var(--card-background) 0%, rgba(22, 27, 34, 0.95) 100%);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .group-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        border-color: rgba(108, 92, 231, 0.3);
+    }
+
+    .group-card__header {
+        background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+        height: 8px;
+    }
+
+    .group-card__content {
+        padding: 24px;
+    }
+
+    .group-card__name {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 16px;
+        color: var(--text-primary);
+    }
+
+    .group-card__meta {
+        display: flex;
+        justify-content: space-between;
+        color: var(--text-secondary);
+        font-size: 0.875rem;
+        margin-bottom: 16px;
+    }
+
+    .meta-item {
+        display: flex;
+        align-items: center;
+    }
+
+    .meta-item i {
+        margin-right: 4px;
+        font-size: 16px;
+    }
+
+    .group-card__progress {
+        margin-bottom: 16px;
+    }
+
+    .progress-bar {
+        height: 6px;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 3px;
+        overflow: hidden;
+    }
+
+    .progress-fill {
+        height: 100%;
+        background: linear-gradient(to right, var(--primary-color), #74b9ff);
+        border-radius: 3px;
+        width: 75%;
+    }
+
+    .progress-label {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.75rem;
+        color: var(--text-secondary);
+        margin-top: 4px;
+    }
+
+    .group-card__footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-top: 1px solid var(--border-color);
+        padding-top: 16px;
+        margin-top: 16px;
+    }
+
+    .group-status {
+        font-size: 0.75rem;
+        padding: 4px 8px;
+        border-radius: 4px;
+        background-color: rgba(16, 185, 129, 0.1);
+        color: var(--success-color);
+    }
+
+    .group-card__action {
+        color: var(--primary-color);
+        text-decoration: none;
+        font-size: 0.875rem;
+        font-weight: 500;
+    }
+
+    .empty-state {
+        background: rgba(22, 27, 34, 0.8);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 48px;
+        text-align: center;
+        grid-column: 1 / -1;
+    }
+
+    .empty-state__icon {
+        margin-bottom: 24px;
+        color: var(--primary-color);
+        font-size: 48px;
+        opacity: 0.8;
+    }
+
+    .empty-state__title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 16px;
+        color: var(--text-primary);
+    }
+
+    .empty-state__message {
+        font-size: 1rem;
+        color: var(--text-secondary);
+        margin-bottom: 32px;
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .dashboard-footer {
+        border-top: 1px solid var(--border-color);
+        padding-top: 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.875rem;
+        color: var(--text-secondary);
+    }
+
+    .footer-links {
+        display: flex;
+        gap: 16px;
+    }
+
+    .footer-link {
+        color: var(--text-secondary);
+        text-decoration: none;
+        transition: color 0.2s ease;
+    }
+
+    .footer-link:hover {
+        color: var(--primary-color);
+    }
+
+    /* Subtle star background */
+    .star-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        pointer-events: none;
+    }
+
+    .star {
+        position: absolute;
+        background-color: white;
+        border-radius: 50%;
+        opacity: 0.2;
+    }
+
+    @media (max-width: 768px) {
+        .dashboard-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 16px;
+        }
+
+        .groups-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .dashboard-stats {
+            grid-template-columns: 1fr;
+        }
+
+        .empty-state {
+            padding: 32px 16px;
+        }
+    }
+
+    /* ... existing CSS remains unchanged above ... */
+
+    @media (max-width: 768px) {
+        .dashboard-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 16px;
+        }
+
+        .dashboard-title {
+            font-size: 1.75rem;
+            text-align: left;
+        }
+
+        .header-actions {
+            flex-direction: column;
+            align-items: stretch;
+            width: 100%;
+        }
+
+        .button-primary {
+            width: 100%;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .groups-grid,
+        .dashboard-stats {
+            grid-template-columns: 1fr;
+        }
+
+        .empty-state {
+            padding: 32px 16px;
+        }
+
+        .footer-links {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .dashboard-footer {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 12px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .dashboard {
+            padding: 24px 16px;
+        }
+
+        .dashboard-title {
+            font-size: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+        }
+
+        .group-card__name {
+            font-size: 1.1rem;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+        }
+
+        .group-card__content {
+            padding: 16px;
+        }
+
+        .button-primary {
+            padding: 8px 16px;
+            font-size: 13px;
+        }
+
+        .empty-state__title {
+            font-size: 1.25rem;
+        }
+
+        .empty-state__message {
+            font-size: 0.95rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="star-bg" id="star-bg"></div>
+
+<div class="dashboard">
+    <header class="dashboard-header">
+        <h1 class="dashboard-title">Groups Dashboard</h1>
+        <div class="header-actions">
+            <a href="{% url 'group_create' %}" class="button-primary" style="text-decoration: none;">
+                <i class="material-icons ">add</i>Create Group
+            </a>
+        </div>
+    </header>
+
+    <div class="dashboard-content">
+        <!-- Statistics Summary -->
+        <div class="dashboard-stats">
+            <div class="stat-card">
+                <div class="stat-title">Total Groups</div>
+                <div class="stat-value">{{ groups|length }}</div>
+                <div class="stat-change">
+                    <i class="material-icons">trending_up</i>
+                    <span>10% increase</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-title">Active Members</div>
+                <div class="stat-value">{{ total_members }}</div>
+                <div class="stat-change">
+                    <i class="material-icons">trending_up</i>
+                    <span>5% increase</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-title">Activity Score</div>
+                <div class="stat-value">85%</div>
+                <div class="stat-change" style="color: var(--warning-color);">
+                    <i class="material-icons">trending_down</i>
+                    <span>2% decrease</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Groups Section -->
+        <section class="groups-section">
+            <div class="section-header">
+                <h2 class="section-title">Your Groups</h2>
+                {% if groups %}
+                <a href="#" class="view-all">View all<i class="material-icons">arrow_forward</i></a>
+                {% endif %}
+            </div>
+
+            <div class="groups-grid">
+                {% if groups %}
+                {% for group in groups %}
+                <div class="group-card">
+                    <div class="group-card__header"></div>
+                    <div class="group-card__content">
+                        <h3 class="group-card__name">{{ group.name }}</h3>
+                        <div class="group-card__meta">
+                            <div class="meta-item">
+                                <i class="material-icons">people</i>
+                                <span>{{ group.members.count }} members</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="material-icons">task_alt</i>
+                                <span>{{ group.tasks.count }} total tasks</span>
+                            </div>
+                        </div>
+
+                        <div class="group-card__progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: {{ group.completion|default:75 }}%;"></div>
+                            </div>
+                            <div class="progress-label">
+                                <span>Project completion</span>
+                                <span>{{ group.completion|default:75 }}%</span>
+                            </div>
+                        </div>
+
+                        <div class="group-card__footer">
+                            <div class="group-status">
+                                {% if group.is_active %}Active{% else %}Inactive{% endif %}
+                            </div>
+                            <a href="{% url 'group_detail' group.id %}" class="group-card__action">View Group</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <div class="empty-state">
+                    <div class="empty-state__icon">
+                        <i class="material-icons">groups</i>
+                    </div>
+                    <h3 class="empty-state__title">No Groups Created</h3>
+                    <p class="empty-state__message">
+                        Create your first group to start collaborating with team members on projects.
+                    </p>
+                    <a href="{% url 'group_create' %}" class="button-primary">
+                        <i class="material-icons">add</i>Create Your First Group
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </section>
+    </div>
+
+
+</div>
+{% endblock %}
+
+{% block js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Create subtle star background
+        const starBg = document.getElementById('star-bg');
+        const numberOfStars = 100;
+
+        for (let i = 0; i < numberOfStars; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+
+            // Random position
+            const x = Math.random() * window.innerWidth;
+            const y = Math.random() * window.innerHeight;
+
+            // Random size (1-2px)
+            const size = Math.random() + 1;
+
+            star.style.width = `${size}px`;
+            star.style.height = `${size}px`;
+            star.style.left = `${x}px`;
+            star.style.top = `${y}px`;
+
+            starBg.appendChild(star);
+        }
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Create Group | Space Portal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Material Design Lite CSS & Fonts -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.3.0/material.indigo-deep_purple.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.3.0/material.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Orbitron:400,700|Roboto:300,400,500">
+
+    <style>
+        :root {
+            --primary-dark: #0a1128;
+            --primary-medium: #1c2541;
+            --primary-light: #3a506b;
+            --accent-blue: #4361ee;
+            --accent-light: #8db2e5;
+            --text-light: #edf2f4;
+            --form-bg: rgba(11, 19, 43, 0.9);
+            --input-bg: rgba(13, 27, 77, 0.6);
+            --input-border: #3d5a80;
+            --input-focus: #4cc9f0;
+            --error: #ff7e67;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-medium) 50%, #162447 100%);
+            color: var(--text-light);
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            padding: 20px;
+            margin: auto;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .page-title {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--accent-light);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 32px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(116, 185, 255, 0.5);
+        }
+
+        .page-subtitle {
+            color: #a2d6f9;
+            font-weight: 300;
+            font-size: 18px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-card {
+            background: var(--form-bg);
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 12px 40px rgba(31, 38, 135, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            max-width: 800px;
+            margin: 0 auto 40px;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg, var(--accent-blue), #7209b7, #3a0ca3);
+        }
+
+        h2 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--accent-light);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            font-size: 28px;
+            border-bottom: 2px solid var(--accent-blue);
+            display: inline-block;
+        }
+
+        form {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 5px;
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 10px;
+            color: #a2d6f9;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        form input,
+        form textarea,
+        form select {
+            width: 100%;
+            padding: 14px;
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        form input:focus,
+        form textarea:focus,
+        form select:focus {
+            border: 3px solid white;
+            outline: none;
+            border-color: var(--input-focus);
+            box-shadow: 0 0 1px rgba(76, 201, 240, 0.6);
+        }
+
+        form .helptext {
+            display: block;
+            font-size: 14px;
+            color: #a2d6f9;
+            margin-top: 8px;
+            font-style: italic;
+            opacity: 0.8;
+        }
+
+        form .errorlist {
+            color: var(--error);
+            list-style-type: none;
+            padding: 0;
+            margin: 5px 0 0 0;
+            font-size: 14px;
+        }
+
+        .button-container {
+            margin-top: 10px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .mdl-button {
+            background: linear-gradient(135deg, var(--accent-blue) 0%, #3a0ca3 100%) !important;
+            color: white !important;
+            border: none !important;
+            padding: 14px 28px !important;
+            border-radius: 8px !important;
+            font-family: 'Orbitron', sans-serif !important;
+            font-size: 16px !important;
+            letter-spacing: 1px !important;
+            cursor: pointer !important;
+            transition: all 0.3s ease !important;
+            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.4) !important;
+            text-transform: uppercase !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            font-weight: 500 !important;
+        }
+
+        .mdl-button:hover {
+            background: linear-gradient(135deg, #3a0ca3 0%, var(--accent-blue) 100%) !important;
+            transform: translateY(-3px) !important;
+            box-shadow: 0 7px 20px rgba(67, 97, 238, 0.6) !important;
+        }
+
+        .mdl-button:active {
+            transform: translateY(1px) !important;
+        }
+
+        .mdl-button i {
+            margin-right: 8px;
+        }
+
+        /* Responsive Styling */
+        @media (min-width: 768px) {
+            form {
+                grid-template-columns: 1fr 1fr;
+                gap: 24px 32px;
+            }
+
+            .full-width {
+                grid-column: span 2;
+            }
+
+            .button-container {
+                grid-column: span 2;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .form-card {
+                padding: 30px 25px;
+                margin: auto;
+                border-radius: 12px;
+            }
+
+            h2 {
+                font-size: 24px;
+                margin-bottom: 25px;
+            }
+
+            .page-title {
+                font-size: 26px;
+            }
+
+            .page-subtitle {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .form-card {
+                padding: 25px 20px;
+                margin: 10px;
+                border-radius: 10px;
+            }
+
+            h2 {
+                font-size: 22px;
+                margin-bottom: 20px;
+            }
+
+            form input,
+            form textarea,
+            form select {
+                padding: 12px;
+                font-size: 15px;
+            }
+
+            .mdl-button {
+                width: 100%;
+                padding: 12px !important;
+                font-size: 15px !important;
+            }
+
+            .page-title {
+                font-size: 22px;
+            }
+        }
+
+        /* Animation effects */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-card {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        /* Custom form elements styling compatibility */
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%238db2e5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 16px;
+            padding-right: 40px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="mdl-layout mdl-js-layout">
+        <main class="mdl-layout__content">
+            <div class="container">
+                <div class="page-header">
+                    <h1 class="page-title">CREATE YOUR GROUP</h1>
+                   
+                </div>
+                
+                <div class="form-card">
+                    <h2>Create Your Group</h2>
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <!-- This will render Django form fields with our enhanced styling -->
+                        <!-- We'll add the class attributes via JavaScript -->
+                        {{ form.as_p }}
+                        
+                        <div class="button-container">
+                            <button type="submit"
+                                class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
+                                <i class="material-icons">group_add</i> Create Group
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Apply our custom styling to Django's generated form elements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add full-width class to textareas and any field that should span both columns
+            const formElements = document.querySelectorAll('form p');
+            formElements.forEach(element => {
+                const textareas = element.querySelectorAll('textarea');
+                if (textareas.length > 0) {
+                    element.classList.add('full-width');
+                }
+                
+                // Convert Django's <p> wrappers to div.form-group for better styling
+                element.classList.add('form-group');
+                
+                // Add ripple effect to inputs
+                const inputs = element.querySelectorAll('input, select, textarea');
+                inputs.forEach(input => {
+                    input.classList.add('mdl-textfield__input');
+                    
+                    // If there's a ripple container element from MDL, initialize it
+                    if (window.componentHandler) {
+                        componentHandler.upgradeElement(input);
+                    }
+                });
+            });
+            
+            // Initialize all MDL components
+            if (window.componentHandler) {
+                componentHandler.upgradeAllRegistered();
+            }
+        });
+    </script>
+</body>
+
+</html>

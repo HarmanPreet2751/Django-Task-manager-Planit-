@@ -1,0 +1,728 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+
+<style>
+    body {
+        background-color: #03033a;
+        margin: 0;
+        padding: 0;
+        font-family: 'Poppins', sans-serif;
+    }
+    
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    a {
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    ::selection {
+        background-color: #fed000;
+        color: #242424;
+    }
+
+    #pricing-table {
+        color: white;
+        margin-top: 10vh;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        min-height: 100vh;
+        padding: 0 20px;
+    }
+
+    .section-title {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+    
+    .section-title h2 {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+        font-weight: 700;
+    }
+    
+    .section-title p {
+        font-size: 1rem;
+        color: #ccc;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .price-box-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 30px;
+        flex-wrap: wrap;
+        gap: 25px;
+        max-width: 1200px;
+    }
+
+    .price-box {
+        width: 265px;
+        border-radius: 12px;
+        height: auto;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        transition: all 0.3s ease;
+    }
+    
+    .price-box:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .box-top-section {
+        background-color: #f5f5f5;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 30px 20px;
+        width: 100%;
+        position: relative;
+        border-bottom: 4px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .plan-name {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin: 10px 5px 20px;
+    }
+
+    .plan-name strong {
+        color: #000;
+        font-size: 1.8rem;
+        margin: 5px 0;
+        font-weight: 700;
+    }
+
+    .plan-name span {
+        color: #555;
+        font-weight: 500;
+        font-size: 0.9rem;
+    }
+
+    .plan-img {
+        width: 160px;
+        height: 117px;
+        margin: 15px 0;
+    }
+
+    .plan-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        object-position: center;
+    }
+
+    .price-section {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin: 15px 0 5px;
+    }
+
+    .price {
+        font-size: 4rem;
+        color: #000;
+        display: flex;
+        align-items: center;
+    }
+
+    .price span {
+        font-size: 1.5rem;
+        color: #000;
+        font-weight: 500;
+    }
+
+    .per-month {
+        font-size: 0.9rem;
+        color: #555;
+        margin-top: 5px;
+    }
+
+    .box-features-section {
+        background-color: #111;
+        padding: 25px 15px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .features-box {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        border-radius: 8px;
+        padding: 12px 15px;
+        cursor: pointer;
+        position: relative;
+        margin-bottom: 5px;
+        transition: all 0.2s ease;
+    }
+
+    .features-box i {
+        color: #fed000;
+        margin-right: 10px;
+        font-size: 0.9rem;
+    }
+
+    .features-box span {
+        color: white;
+        font-size: 0.9rem;
+    }
+
+    .features-box:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .feature-details {
+        position: absolute;
+        bottom: 45px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90%;
+        height: auto;
+        padding: 15px;
+        background-color: #242424;
+        color: #ebebeb;
+        border-radius: 8px;
+        font-size: 0.8rem;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        display: none;
+        animation: fade 0.3s;
+        z-index: 100;
+    }
+
+    .feature-details:after {
+        content: '';
+        width: 0;
+        height: 0;
+        border-bottom: 8px solid transparent;
+        border-left: 8px solid transparent;
+        border-top: 8px solid #242424;
+        border-right: 8px solid transparent;
+        position: absolute;
+        left: 50%;
+        top: 100%;
+        transform: translateX(-50%);
+    }
+
+    .features-box:hover .feature-details {
+        display: block;
+    }
+
+    .chose-plan-btn {
+        padding: 12px 28px;
+        border-radius: 30px;
+        background-color: #fed000;
+        margin-top: 25px;
+        font-size: 0.9rem;
+        color: #000;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
+    
+    .chose-plan-btn i {
+        margin-left: 8px;
+        transition: transform 0.3s ease;
+    }
+    
+    .chose-plan-btn:hover {
+        background-color: #e5bc00;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+    
+    .chose-plan-btn:hover i {
+        transform: translateX(5px);
+    }
+
+    @keyframes fade {
+        0% {
+            opacity: 0;
+            transform: translateX(-50%) translateY(10px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+    }
+
+    .top-bar {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        top: -20px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 0.9rem;
+        border-radius: 20px;
+        padding: 8px 25px;
+        color: #ffffff;
+        background-color: #2c2c2c;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        font-weight: 600;
+    }
+
+    .popular .box-top-section {
+        background-color: #fed000;
+    }
+    
+    .popular {
+        transform: scale(1.05);
+    }
+    
+    .popular:hover {
+        transform: scale(1.05) translateY(-10px);
+    }
+
+    @media(max-width:1160px) {
+        .price-box-container {
+            max-width: 800px;
+        }
+    }
+
+    @media(max-width:810px) {
+        .price-box-container {
+            width: 100%;
+            gap: 40px;
+        }
+        
+        .popular {
+            transform: scale(1);
+        }
+        
+        .popular:hover {
+            transform: translateY(-10px);
+        }
+    }
+
+    @media(max-width:570px) {
+        .section-title h2 {
+            font-size: 2rem;
+        }
+        
+        .price-box {
+            width: 100%;
+            max-width: 320px;
+        }
+        
+        #pricing-table {
+            margin-top: 5vh;
+        }
+    }
+</style>
+{% endblock %}
+{% block container %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing Plans</title>
+    <script src="https://kit.fontawesome.com/c8e4d183c2.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="gap1" style="height: 20vh;"></div>
+    <section id="pricing-table">
+        <div class="section-title">
+            <h2>Choose Your Plan</h2>
+            <p>Select the perfect plan for your business needs with our flexible pricing options.</p>
+        </div>
+        
+        <div class="price-box-container">
+            <div class="price-box">
+                <div class="box-top-section">
+                    <div class="plan-name">
+                        <strong>Starter</strong>
+                        <span>Small Office/Home Office</span>
+                    </div>
+
+                    <div class="plan-img">
+                        <img alt="Starter Plan" src="{% static 'images/starter.svg' %}">
+                    </div>
+                    <div class="price-section">
+                        <div class="price">
+                            <span>$</span>
+                            <strong>16</strong>
+                            <span>/mo</span>
+                        </div>
+                    </div>
+                    <span class="per-month">or <strong>$19</strong> month-to-month</span>
+                </div>
+                <div class="box-features-section">
+                    <div class="features-box">
+                        <i class="fas fa-check"></i>
+                        <span>60-day chat history</span>
+                        <div class="feature-details">
+                            <p>Your chats will be stored in the archives for 60 days.</p>
+                        </div>
+                    </div>
+                    <div class="features-box">
+                        <i class="fas fa-check"></i>
+                        <span>Basic widget customization</span>
+                        <div class="feature-details">
+                            <p>Customization is limited to changing the theme and colors of the chat widget.</p>
+                        </div>
+                    </div>
+                    <div class="features-box">
+                        <i class="fas fa-check"></i>
+                        <span>Ticketing system</span>
+                        <div class="feature-details">
+                            <p>Built-in ticketing system that will allow you to create, manage, and track tougher cases.
+                                You can also use it to handle emails and messages left when your LiveChat is offline.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="features-box">
+                        <i class="fas fa-check"></i>
+                        <span>Data security</span>
+                        <div class="feature-details">
+                            <p>Secure 256-bit SSL encryption for website visitors and agents connecting to your
+                                LiveChat.</p>
+                        </div>
+                    </div>
+                    <a href="{% url 'home' %}" class="chose-plan-btn">Choose Plan
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="price-box">
+                <div class="box-top-section">
+                    <div class="plan-name">
+                        <strong>Team</strong>
+                        <span>Small Office/Home Office</span>
+                    </div>
+
+                    <div class="plan-img">
+                        <img alt="Team Plan" src="{% static 'images/team.svg' %}">
+                    </div>
+                    <div class="price-section">
+                        <div class="price">
+                            <span>$</span>
+                            <strong>33</strong>
+                            <span>/mo</span>
+                        </div>
+                    </div>
+                    <span class="per-month">or <strong>$39</strong> month-to-month</span>
+                </div>
+                <div class="box-features-section">
+                    <div class="features-box">
+                        <i class="fas fa-check"></i>
+                        <span>60-day chat history</span>
+                        <div class="feature-details">
+                            <p>Full customization, including changing the theme, colors, visibility.</p>
+                        </div>
+                    </div>
+                    <div class="features-box">
+                        <i class="fas fa-check"></i>
+                        <span>Basic widget customization</span>
+                        <div class="feature-details">
+                            <p>Built-in ticketing system that will allow you to create, manage, and track tougher cases.
+                                You can also use it to handle emails and messages left when your LiveChat is offline.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="features-box">
+                        <i class="fas fa-check"></i>
+                        <span>Ticketing system</span>
+                        <div class="feature-details">
+                            <p>Secure 256-bit SSL encryption for website visitors and agents connecting to your
+                                LiveChat.</p>
+                        </div>
+                    </div>
+                    <div class="features-box">
+                        <i class="fas fa-check"></i>
+                        <span>Data security</span>
+                        <div class="feature-details">
+                            <p>Chat and ticket reports plus a daily recap of your account activity.</p>
+                        </div>
+                    </div>
+                    <div class="features-box">
+                        <i class="fas fa-check"></i>
+                        <span>Basic reporting</span>
+                        <div class="feature-details">
+                            <p>You can divide your LiveChat by department. This way, you can route chats to the right
+                                agents.</p>
+                        </div>
+                    </div>
+                    <div class="features-box">
+                        <i class="fas fa-check"></i>
+                        <span>Agent groups</span>
+                        <div class="feature-details">
+                            <p>You can put LiveChat on multiple websites. Each implementation can be customized
+                                separately.</p>
+                        </div>
+                    </div>
+                    <div class="features-box">
+                        <i class="fas fa-check"></i>
+                        <span>Multiple brandings</span>
+                        <div class="feature-details">
+                            <p>All your chats will be stored in the archives.</p>
+                        </div>
+                    </div>
+                    <a href="{% url 'home' %}" class="chose-plan-btn">Choose Plan <i class="fas fa-chevron-right"></i></a>
+                </div>
+            </div>
+            <div class="price-box popular">
+                <div class="box-top-section">
+                    <div class="top-bar">
+                        <span>Popular</span>
+                    </div>
+                    <div class="plan-name">
+                        <strong>Business</strong>
+                        <span>Small Office/Home Office</span>
+                    </div>
+
+                    <div class="plan-img">
+                        <img alt="Business Plan" src="{% static 'images/business.svg' %}">
+                    </div>
+                    <div class="price-section">
+                        <div class="price">
+                            <span>$</span>
+                            <strong>50</strong>
+                            <span>/mo</span>
+                        </div>
+                    </div>
+                    <span class="per-month">or <strong>$59</strong> month-to-month</span>
+                </div>
+                <div class="box-features-section">
+                    <div class="features-box">
+                        <i class="fas fa-check"></i>
+                        <span>60-day chat history</span>
+                        <div class="feature-details">
+                            <p>Full customization, including changing the theme, colors, visibility.</p>
+                        </div>
+                    </div>
+                    <div class="features-box">
+                        <i class="fas fa-check"></i>
+                        <span>Basic widget customization</span>
+                        <div class="feature-details">
+                            <p>Built-in ticketing system that will allow you to create, manage, and track tougher cases.
+                                You can also use it to handle emails and messages left when your LiveChat is offline.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="features-box">
+                        <i class="fas fa-check"></i>
+                        <span>Ticketing system</span>
+                        <div class="feature-details">
+                            <p>Secure 256-bit SSL encryption for website visitors and agents connecting to your
+                                LiveChat.</p>
+                        </div>
+                    </div>
+                    <div class="features-box">
+                        <i class="fas fa-check"></i>
+                        <span>Data security</span>
+                        <div class="feature-details">
+                            <p>Chat and ticket reports plus a daily recap of your account activity.</p>
+                        </div>
+                    </div>
+                    <div class="features-box">
+                        <i class="fas fa-check"></i>
+                        <span>Basic reporting</span>
+                        <div class="feature-details">
+                            <p>You can divide your LiveChat by department. This way, you can route chats to the right
+                                agents.</p>
+                        </div>
+                    </div>
+                    <div class="features-box">
+                        <i class="fas fa-check"></i>
+                        <span>Agent groups</span>
+                        <div class="feature-details">
+                            <p>You can put LiveChat on multiple websites. Each implementation can be customized
+                                separately.</p>
+                        </div>
+                    </div>
+                    <div class="features-box">
+                        <i class="fas fa-check"></i>
+                        <span>Multiple brandings</span>
+                        <div class="feature-details">
+                            <p>All your chats will be stored in the archives.</p>
+                        </div>
+                    </div>
+
+                    <div class="features-box">
+                        <i class="fas fa-check"></i>
+                        <span>Staffing prediction</span>
+                        <div class="feature-details">
+                            <p>A report that will tell you how many agents you will need to cover your changing chat
+                                volume.</p>
+                        </div>
+                    </div>
+                    <div class="features-box">
+                        <i class="fas fa-check"></i>
+                        <span>Work scheduler</span>
+                        <div class="feature-details">
+                            <p>Configure the working hours for your agents to ensure smooth transitions between shifts.
+                            </p>
+                        </div>
+                    </div>
+                    <a href="{% url 'home' %}" class="chose-plan-btn">Choose Plan <i class="fas fa-chevron-right"></i></a>
+                </div>
+            </div>
+            <div class="price-box">
+                <div class="box-top-section">
+                    <div class="plan-name">
+                        <strong>Enterprise</strong>
+                        <span>Small Office/Home Office</span>
+                    </div>
+
+                    <div class="plan-img">
+                        <img alt="Enterprise Plan" src="{% static 'images/enterprise.svg' %}">
+                    </div>
+                    <div class="price-section">
+                        <div class="price">
+                            <span>$</span>
+                            <strong>80</strong>
+                            <span>/mo</span>
+                        </div>
+                    </div>
+                    <span class="per-month">or <strong>$95</strong> month-to-month</span>
+                </div>
+                <div class="box-features-section">
+                    <div class="features-box">
+                        <i class="fas fa-check"></i>
+                        <span>60-day chat history</span>
+                        <div class="feature-details">
+                            <p>Full customization, including changing the theme, colors.</p>
+                        </div>
+                    </div>
+                    <div class="features-box">
+                        <i class="fas fa-check"></i>
+                        <span>Basic widget customization</span>
+                        <div class="feature-details">
+                            <p>Built-in ticketing system that will allow you to create, manage, and track tougher cases.
+                                You can also use it to handle emails and messages left when your LiveChat is offline.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="features-box">
+                        <i class="fas fa-check"></i>
+                        <span>Ticketing system</span>
+                        <div class="feature-details">
+                            <p>Secure 256-bit SSL encryption for website visitors and agents connecting to your
+                                LiveChat.</p>
+                        </div>
+                    </div>
+                    <div class="features-box">
+                        <i class="fas fa-check"></i>
+                        <span>Data security</span>
+                        <div class="feature-details">
+                            <p>Chat and ticket reports plus a daily recap of your account activity.</p>
+                        </div>
+                    </div>
+                    <div class="features-box">
+                        <i class="fas fa-check"></i>
+                        <span>Basic reporting</span>
+                        <div class="feature-details">
+                            <p>You can divide your LiveChat by department. This way, you can route chats to the right
+                                agents.</p>
+                        </div>
+                    </div>
+                    <div class="features-box">
+                        <i class="fas fa-check"></i>
+                        <span>Agent groups</span>
+                        <div class="feature-details">
+                            <p>You can put LiveChat on multiple websites. Each implementation can be customized
+                                separately.</p>
+                        </div>
+                    </div>
+                    <div class="features-box">
+                        <i class="fas fa-check"></i>
+                        <span>Multiple brandings</span>
+                        <div class="feature-details">
+                            <p>All your chats will be stored in the archives.</p>
+                        </div>
+                    </div>
+
+                    <div class="features-box">
+                        <i class="fas fa-check"></i>
+                        <span>Staffing prediction</span>
+                        <div class="feature-details">
+                            <p>A report that will tell you how many agents you will need to cover your changing chat
+                                volume.</p>
+                        </div>
+                    </div>
+                    <div class="features-box">
+                        <i class="fas fa-check"></i>
+                        <span>Work scheduler</span>
+                        <div class="feature-details">
+                            <p>Configure the working hours for your agents to ensure smooth transitions between shifts.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="features-box">
+                        <i class="fas fa-check"></i>
+                        <span>Dedicated acc. manager</span>
+                        <div class="feature-details">
+                            <p>Your own account manager to help you get the most out of your LiveChat.</p>
+                        </div>
+                    </div>
+                    <div class="features-box">
+                        <i class="fas fa-check"></i>
+                        <span>Product training</span>
+                        <div class="feature-details">
+                            <p>Personalized training sessions for your team to master all LiveChat features.</p>
+                        </div>
+                    </div>
+                    <div class="features-box">
+                        <i class="fas fa-check"></i>
+                        <span>Software engineer support</span>
+                        <div class="feature-details">
+                            <p>Direct access to our technical team for advanced customization and integration.</p>
+                        </div>
+                    </div>
+
+                    <div class="features-box">
+                        <i class="fas fa-check"></i>
+                        <span>Security assistance</span>
+                        <div class="feature-details">
+                            <p>Enhanced security protocols and dedicated support for your security concerns.</p>
+                        </div>
+                    </div>
+                    <div class="features-box">
+                        <i class="fas fa-check"></i>
+                        <span>HIPAA Compliance</span>
+                        <div class="feature-details">
+                            <p>Full compliance with health information privacy requirements.</p>
+                        </div>
+                    </div>
+                    <div class="features-box">
+                        <i class="fas fa-check"></i>
+                        <span>Single Sign-On (SSO)</span>
+                        <div class="feature-details">
+                            <p>Seamless authentication process integrated with your company's systems.</p>
+                        </div>
+                    </div>
+                    <a href="{% url 'home' %}" class="chose-plan-btn">Choose Plan <i class="fas fa-chevron-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div id="gap" style="height: 30vh;"></div>
+</body>
+
+{% endblock %}
